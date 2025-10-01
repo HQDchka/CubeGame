@@ -1,6 +1,8 @@
 # Импортируем модули для создания GUI и работы со случайными числами
 from tkinter import *
+from PIL import Image, ImageTk
 import random
+
 
 # Создаём главное окно приложения
 window = Tk()
@@ -23,45 +25,42 @@ result_label.pack(pady=10)
 
 # 🎯 Основная функция игры — бросок кубиков
 def Game():
-    """
-    Генерирует два случайных числа от 1 до 6,
-    загружает соответствующие изображения и отображает их в окне.
-    Предыдущие изображения удаляются для избежания наложения.
-    """
     global images
-    images.clear()  # Очищаем список изображений
+    images.clear()
 
-    # Удаляем все старые изображения из фрейма
     for widget in image_frame.winfo_children():
         widget.destroy()
 
-    # Генерируем случайные значения для двух кубиков
     x = random.randint(1, 6)
     y = random.randint(1, 6)
 
-    # Обновляем текстовый результат
     result_label.config(text=f"🎲 Выпало: {x} и {y}")
 
     try:
-        # Загружаем изображение для первого кубика
-        img1 = PhotoImage(file=f"{x}.png")
-        lbl1 = Label(image_frame, image=img1, bg="#f0f0f0")
-        lbl1.image = img1  # Сохраняем ссылку — важно для Tkinter!
-        lbl1.pack(side=LEFT, padx=10)
-        images.append(img1)  # Добавляем в список, чтобы изображение не удалилось
+        # Размер, до которого будем масштабировать кубики (например, 80x80 пикселей)
+        target_size = (80, 80)
 
-        # Загружаем изображение для второго кубика
-        img2 = PhotoImage(file=f"{y}.png")
-        lbl2 = Label(image_frame, image=img2, bg="#f0f0f0")
-        lbl2.image = img2
+        # Загружаем и масштабируем первое изображение
+        img_path1 = f"CubeGame/image/{x}.png"
+        pil_img1 = Image.open(img_path1).resize(target_size, Image.LANCZOS)
+        tk_img1 = ImageTk.PhotoImage(pil_img1)
+        lbl1 = Label(image_frame, image=tk_img1, bg="#f0f0f0")
+        lbl1.image = tk_img1
+        lbl1.pack(side=LEFT, padx=10)
+        images.append(tk_img1)
+
+        # Загружаем и масштабируем второе изображение
+        img_path2 = f"CubeGame/image/{y}.png"
+        pil_img2 = Image.open(img_path2).resize(target_size, Image.LANCZOS)
+        tk_img2 = ImageTk.PhotoImage(pil_img2)
+        lbl2 = Label(image_frame, image=tk_img2, bg="#f0f0f0")
+        lbl2.image = tk_img2
         lbl2.pack(side=LEFT, padx=10)
-        images.append(img2)
+        images.append(tk_img2)
 
     except Exception as e:
-        # Если файлы не найдены — выводим сообщение об ошибке
         result_label.config(text="❌ Ошибка: файлы 1-6.png не найдены!")
         print(f"[ОШИБКА ЗАГРУЗКИ] {e}")
-
 
 # 🎨 Интерфейс: размещаем элементы управления
 Label(window, text="🎲 Кубик: Брось два кубика!", font=("Arial", 14, "bold"), bg="#f0f0f0").pack(pady=20)
