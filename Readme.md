@@ -28,3 +28,14 @@ python3 main.py
 - Python 3.x
 - Библиотека `tkinter` (входит в стандартную поставку Python)
 - Изображения кубиков (`1.png`–`6.png`) в папке `image/`
+
+## 🖼️ Процесс выполнения задания (скриншоты)
+
+### 1. Структура проекта в VS Code
+![Структура](screenshots/step1.jpg)
+
+### 2. Pull request (изменение файла main)
+![Pull request](screenshots/step2.jpg)
+
+### 3. Pull request (изменение Readme и выгрузка скринштов)
+![Pull request](screenshots/step3.jpg)
